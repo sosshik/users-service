@@ -3,10 +3,10 @@ package service
 import (
 	"github.com/google/uuid"
 	"github.com/jinzhu/copier"
-	"github.com/sosshik/users-service/internal/dtos"
 	"github.com/sosshik/users-service/internal/models"
 	"github.com/sosshik/users-service/internal/repository"
-	"github.com/sosshik/users-service/internal/utils"
+	"github.com/sosshik/users-service/pkg/dtos"
+	"github.com/sosshik/users-service/pkg/utils"
 	"golang.org/x/crypto/bcrypt"
 	"strconv"
 )

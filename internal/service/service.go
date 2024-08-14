@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/sosshik/users-service/internal/dtos"
 	"github.com/sosshik/users-service/internal/repository"
+	"github.com/sosshik/users-service/pkg/dtos"
 )
 
 type Users interface {
