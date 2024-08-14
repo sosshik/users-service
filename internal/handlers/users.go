@@ -4,11 +4,21 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	log "github.com/sirupsen/logrus"
-	"github.com/sosshik/users-service/internal/dtos"
+	"github.com/sosshik/users-service/pkg/dtos"
 	"net/http"
 )
 
 // HandleCreateUser handles user creation requests
+// @Summary Create a new user
+// @Description Create a new user with the given details
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param user body dtos.CreateUserRequest true "User data"
+// @Success 200 {object} dtos.CreateUserResponse
+// @Failure 422 {object} map[string]string "Invalid request payload"
+// @Failure 500 {object} map[string]string "Unable to create user"
+// @Router /users [post]
 func (h *Handler) HandleCreateUser(c echo.Context) error {
 	// Bind the incoming JSON request to CreateUserRequest struct
 	var userReq dtos.CreateUserRequest
@@ -37,6 +47,17 @@ func (h *Handler) HandleCreateUser(c echo.Context) error {
 }
 
 // HandleUpdateUser handles user update requests
+// @Summary Update an existing user
+// @Description Update the user with the given ID
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param id path string true "User ID"
+// @Param user body dtos.UpdateUserRequest true "Updated user data"
+// @Success 200 {object} dtos.UpdateUserResponse
+// @Failure 400 {object} map[string]string "Invalid request payload"
+// @Failure 500 {object} map[string]string "Unable to update user"
+// @Router /users/{id} [put]
 func (h *Handler) HandleUpdateUser(c echo.Context) error {
 	// Bind the incoming JSON request to UpdateUserRequest struct
 	var userReq dtos.UpdateUserRequest
@@ -58,6 +79,14 @@ func (h *Handler) HandleUpdateUser(c echo.Context) error {
 }
 
 // HandleDeleteUser handles user deletion requests
+// @Summary Delete a user
+// @Description Delete the user with the given ID
+// @Tags users
+// @Produce  json
+// @Param id path string true "User ID"
+// @Success 200 {object} map[string]string "Successfully deleted user"
+// @Failure 500 {object} map[string]string "Unable to delete user"
+// @Router /users/{id} [delete]
 func (h *Handler) HandleDeleteUser(c echo.Context) error {
 	// Delete the user by ID via the service layer
 	err := h.services.DeleteUser(c.Param("id"))
@@ -72,6 +101,16 @@ func (h *Handler) HandleDeleteUser(c echo.Context) error {
 }
 
 // HandleGetUsers handles requests to retrieve users with optional filtering and pagination
+// @Summary Get a list of users
+// @Description Retrieve a list of users with optional filtering and pagination
+// @Tags users
+// @Produce  json
+// @Param page query string false "Page number"
+// @Param page_size query string false "Page size"
+// @Param filter query string false "Filter query"
+// @Success 200 {object} dtos.GetUserResponse
+// @Failure 500 {object} map[string]string "Unable to get users"
+// @Router /users [get]
 func (h *Handler) HandleGetUsers(c echo.Context) error {
 	// Fetch filtered users based on query parameters for pagination and filtering
 	response, err := h.services.GetFilteredUsers(c.QueryParam("page"), c.QueryParam("page_size"), c.QueryParam("filter"))

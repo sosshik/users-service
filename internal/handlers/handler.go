@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"github.com/labstack/echo/v4"
+	_ "github.com/sosshik/users-service/docs"
 	"github.com/sosshik/users-service/internal/service"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"net/http"
 )
 
@@ -20,6 +22,8 @@ func (h *Handler) InitRoutes() *echo.Echo {
 	e.GET("/health", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Service is healthy:)")
 	})
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	g := e.Group("/users")
 
