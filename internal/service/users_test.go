@@ -191,6 +191,10 @@ func TestGetFilteredUsers(t *testing.T) {
 	mockRepo := new(mocks.MockUserRepository)
 	service := &UsersService{repo: mockRepo}
 
+	// Define fixed timestamps
+	fixedCreatedAt := time.Date(2024, time.August, 14, 20, 32, 0, 0, time.Local)
+	fixedUpdatedAt := time.Date(2024, time.August, 14, 20, 32, 0, 0, time.Local)
+
 	tests := []struct {
 		name           string
 		pageStr        string
@@ -215,8 +219,8 @@ func TestGetFilteredUsers(t *testing.T) {
 					Nickname:  "testuser",
 					Email:     "john.doe@example.com",
 					Country:   "Country",
-					CreatedAt: time.Now(),
-					UpdatedAt: time.Now(),
+					CreatedAt: fixedCreatedAt,
+					UpdatedAt: fixedUpdatedAt,
 				},
 			},
 			mockTotalCount: 1,
@@ -227,14 +231,14 @@ func TestGetFilteredUsers(t *testing.T) {
 				Total:    1,
 				Users: []dtos.GetUserDTO{
 					{
-						ID:        uuid.New(),
+						ID:        uuid.Nil, // ID comparison can be tricky, consider using a special assertion
 						FirstName: "John",
 						LastName:  "Doe",
 						Nickname:  "testuser",
 						Email:     "john.doe@example.com",
 						Country:   "Country",
-						CreatedAt: time.Now(),
-						UpdatedAt: time.Now(),
+						CreatedAt: fixedCreatedAt,
+						UpdatedAt: fixedUpdatedAt,
 					},
 				},
 			},
@@ -255,7 +259,7 @@ func TestGetFilteredUsers(t *testing.T) {
 				expectedUser := tt.expected.Users[i]
 				actualUser := got.Users[i]
 
-				expectedUser.ID = uuid.Nil
+				expectedUser.ID = uuid.Nil // Handling UUID comparison can be tricky
 				actualUser.ID = uuid.Nil
 
 				assert.Equal(t, expectedUser, actualUser)
