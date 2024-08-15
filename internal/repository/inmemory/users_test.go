@@ -9,7 +9,6 @@ import (
 func TestCreateUser(t *testing.T) {
 	storage := NewInMemory()
 
-	// Setup: Create initial users to test uniqueness constraints
 	_, err := storage.CreateUser(models.User{
 		Nickname:  "existinguser",
 		Email:     "existinguser@example.com",
@@ -40,7 +39,7 @@ func TestCreateUser(t *testing.T) {
 		{
 			name: "Create user with existing nickname",
 			input: models.User{
-				Nickname:  "existinguser", // Existing nickname
+				Nickname:  "existinguser",
 				Email:     "different@example.com",
 				FirstName: "Another",
 				LastName:  "User",
@@ -52,7 +51,7 @@ func TestCreateUser(t *testing.T) {
 			name: "Create user with existing email",
 			input: models.User{
 				Nickname:  "differentuser",
-				Email:     "existinguser@example.com", // Existing email
+				Email:     "existinguser@example.com",
 				FirstName: "Different",
 				LastName:  "User",
 				Country:   "Country",
@@ -74,7 +73,6 @@ func TestCreateUser(t *testing.T) {
 func TestUpdateUser(t *testing.T) {
 	storage := NewInMemory()
 
-	// Create an initial user
 	user, _ := storage.CreateUser(models.User{
 		Nickname:  "initialuser",
 		Email:     "initialuser@example.com",
@@ -110,7 +108,7 @@ func TestUpdateUser(t *testing.T) {
 				LastName:  "User",
 				Country:   "Country",
 			},
-			expectErr: true, // Ensure there's another user with the same nickname
+			expectErr: true,
 		},
 		{
 			name: "Update user with existing email",
@@ -122,12 +120,12 @@ func TestUpdateUser(t *testing.T) {
 				LastName:  "User",
 				Country:   "Country",
 			},
-			expectErr: true, // Ensure there's another user with the same email
+			expectErr: true,
 		},
 		{
 			name: "Update non-existent user",
 			input: models.User{
-				ID:        uuid.New(), // Invalid ID
+				ID:        uuid.New(),
 				Nickname:  "nonexistent",
 				Email:     "nonexistent@example.com",
 				FirstName: "Nonexistent",
@@ -151,7 +149,6 @@ func TestUpdateUser(t *testing.T) {
 func TestGetUser(t *testing.T) {
 	storage := NewInMemory()
 
-	// Create a user
 	user, _ := storage.CreateUser(models.User{
 		Nickname:  "getuser",
 		Email:     "getuser@example.com",
@@ -172,7 +169,7 @@ func TestGetUser(t *testing.T) {
 		},
 		{
 			name:      "Get non-existent user",
-			input:     uuid.New(), // Invalid ID
+			input:     uuid.New(),
 			expectErr: true,
 		},
 	}
@@ -190,7 +187,6 @@ func TestGetUser(t *testing.T) {
 func TestDeleteUser(t *testing.T) {
 	storage := NewInMemory()
 
-	// Create a user
 	user, _ := storage.CreateUser(models.User{
 		Nickname:  "deleteuser",
 		Email:     "deleteuser@example.com",
@@ -211,7 +207,7 @@ func TestDeleteUser(t *testing.T) {
 		},
 		{
 			name:      "Delete non-existent user",
-			input:     uuid.New(), // Invalid ID
+			input:     uuid.New(),
 			expectErr: true,
 		},
 	}
@@ -229,7 +225,6 @@ func TestDeleteUser(t *testing.T) {
 func TestGetFilteredUsers(t *testing.T) {
 	storage := NewInMemory()
 
-	// Setup: Create some users for testing
 	users := []models.User{
 		{
 			Nickname:  "alice",
@@ -277,7 +272,7 @@ func TestGetFilteredUsers(t *testing.T) {
 			limit:         10,
 			offset:        0,
 			expected:      []models.User{users[1]},
-			expectedCount: 1, // Corrected expected count
+			expectedCount: 1,
 		},
 		{
 			name:          "Filter by email",
@@ -286,7 +281,7 @@ func TestGetFilteredUsers(t *testing.T) {
 			limit:         10,
 			offset:        0,
 			expected:      []models.User{users[0]},
-			expectedCount: 1, // Corrected expected count
+			expectedCount: 1,
 		},
 		{
 			name:          "Filter by first name",
@@ -295,7 +290,7 @@ func TestGetFilteredUsers(t *testing.T) {
 			limit:         10,
 			offset:        0,
 			expected:      []models.User{users[1]},
-			expectedCount: 1, // Corrected expected count
+			expectedCount: 1,
 		},
 		{
 			name:          "Filter by country",
@@ -304,7 +299,7 @@ func TestGetFilteredUsers(t *testing.T) {
 			limit:         1,
 			offset:        0,
 			expected:      []models.User{users[1]},
-			expectedCount: 1, // Corrected expected count
+			expectedCount: 1,
 		},
 		{
 			name:          "Pagination",
@@ -338,7 +333,6 @@ func TestGetFilteredUsers(t *testing.T) {
 				t.Errorf("GetFilteredUsers() returned count = %d, expected %d", count, tt.expectedCount)
 			}
 
-			// Compare results while ignoring UUIDs and timestamps
 			for i, user := range tt.expected {
 				if i >= len(result) {
 					t.Errorf("Expected user %v not found in results", user)
@@ -352,7 +346,6 @@ func TestGetFilteredUsers(t *testing.T) {
 	}
 }
 
-// Helper function to compare users while ignoring UUID and timestamps
 func usersEqualIgnoringDynamicFields(a, b models.User) bool {
 	return a.Nickname == b.Nickname &&
 		a.Email == b.Email &&

@@ -21,7 +21,7 @@ const docTemplate = `{
     "paths": {
         "/users": {
             "get": {
-                "description": "Retrieve a list of users with optional filtering and pagination",
+                "description": "Retrieve a list of users with optional filtering and pagination. Filter must look like this and be URL encoded: field=value",
                 "produces": [
                     "application/json"
                 ],

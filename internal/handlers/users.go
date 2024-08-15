@@ -102,7 +102,7 @@ func (h *Handler) HandleDeleteUser(c echo.Context) error {
 
 // HandleGetUsers handles requests to retrieve users with optional filtering and pagination
 // @Summary Get a list of users
-// @Description Retrieve a list of users with optional filtering and pagination
+// @Description Retrieve a list of users with optional filtering and pagination. Filter must look like this and be URL encoded: field=value
 // @Tags users
 // @Produce  json
 // @Param page query string false "Page number"

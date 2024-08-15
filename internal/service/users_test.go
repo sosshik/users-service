@@ -191,7 +191,6 @@ func TestGetFilteredUsers(t *testing.T) {
 	mockRepo := new(mocks.MockUserRepository)
 	service := &UsersService{repo: mockRepo}
 
-	// Define fixed timestamps
 	fixedCreatedAt := time.Date(2024, time.August, 14, 20, 32, 0, 0, time.Local)
 	fixedUpdatedAt := time.Date(2024, time.August, 14, 20, 32, 0, 0, time.Local)
 
@@ -231,7 +230,7 @@ func TestGetFilteredUsers(t *testing.T) {
 				Total:    1,
 				Users: []dtos.GetUserDTO{
 					{
-						ID:        uuid.Nil, // ID comparison can be tricky, consider using a special assertion
+						ID:        uuid.Nil,
 						FirstName: "John",
 						LastName:  "Doe",
 						Nickname:  "testuser",
@@ -259,7 +258,7 @@ func TestGetFilteredUsers(t *testing.T) {
 				expectedUser := tt.expected.Users[i]
 				actualUser := got.Users[i]
 
-				expectedUser.ID = uuid.Nil // Handling UUID comparison can be tricky
+				expectedUser.ID = uuid.Nil
 				actualUser.ID = uuid.Nil
 
 				assert.Equal(t, expectedUser, actualUser)
