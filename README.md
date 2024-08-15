@@ -24,7 +24,7 @@ API Documentation is available at http://localhost:8090/swagger/index.html
 ## Tests
 Unit tests are provided for the core functionality of the service. You can run the tests using:
 ```bash
-go test ./... -v
+go test -v ./...
 ```
 
 ## Setup Instructions
@@ -37,7 +37,7 @@ go test ./... -v
 1. Clone the Repository:
 
 ```bash
-git clone https://github.com/sosshik/users-service.git
+git clone https://github.com/sosshik/users-service
 cd users-service
 ```
 
